@@ -1,0 +1,31 @@
+<div class="container" style="width: 700px; height: 400px;">
+	<div class="row" style="border-bottom: solid; border-width: 1px; border-bottom-style: groove;
+							border-bottom: 1px solid #ccc;">
+		<div class="col-md-9">
+			<h2 style="margin-left: 5px; color: black">{{ channel }}</h2>
+		</div>
+		<div class="col-md-2 pull-right" style="margin-right: 45px; margin-top: 15px">
+			<a href="/" class="btn btn-default">Change channel</a>
+		</div>
+	</div>
+	<div ng-show="card">
+		<div class="row" style="margin-top: 30px">
+			<p style="margin-left: 10px; white-space: pre-line;">{{ card.content}}</h>
+		</div>
+		<div ng-show="!card.permanent" class="row pull-right" style="margin-top: 40px">
+			<p class="text-muted">{{ hour | numberFixedLen:2}}:{{ minute | numberFixedLen:2 }}:{{ second | numberFixedLen:2 }} before destruction</p>
+		</div>
+	</div>
+
+	<div ng-hide="card">
+		<form role="form" ng-submit="createCard()" style="margin-top: 20px;">
+		<div class="form-group">
+			<textarea class="form-control" id="inputContent" row="3"
+			placeholder="Enter content" ng-model="formData.content" style="height: 350px"></textarea>
+		</div>
+		<div class="form-group pull-right">
+			<button type="submit" class="btn btn-default">Save</button>
+		</div>
+		</form>
+	</div>
+</div>
