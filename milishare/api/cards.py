@@ -11,22 +11,28 @@ bp = Blueprint('cards', __name__, url_prefix='/cards')
 
 @route(bp, '/')
 def query():
-    """Returns a list of card instances."""
-    channel = request.args.get('channel', None)
-    if not channel:
-        return cards.all()
-    else:
-        card = cards.first(channel=channel)
-        if not card:
-            return []
+    """Returns a list of unexpired card instances ordered by create time.
 
-        # Check if card is expired.
+    :param channel: (optional) The channel of the card.
+    :param count: (optional) The # of cards returned. Default is 10.
+    """
+    channel = request.args.get('channel', None)
+    count = request.args.get('count', 10)
+
+    if channel:
+        results = cards.find(channel=channel)
+    else:
+        results = cards.find(permanent=None)
+    results = results.order_by(cards.__model__.create_time.desc()).limit(count).all()
+
+    # Remove expired cards.
+    fresh_cards = []
+    for card in results:
         if _is_card_expired(card):
             cards.delete(card)
-            return []
         else:
-            return [card]
-
+            fresh_cards.append(card)
+    return fresh_cards
 
 @route(bp, '/', methods=['POST'])
 def create():
