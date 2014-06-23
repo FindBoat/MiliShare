@@ -22,7 +22,7 @@ def query():
     if channel:
         results = cards.find(channel=channel)
     else:
-        results = cards.find(permanent=None)
+        results = cards.find(permanent=False)
     results = results.order_by(cards.__model__.create_time.desc()).limit(count).all()
 
     # Remove expired cards.

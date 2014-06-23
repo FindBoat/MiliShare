@@ -13,4 +13,4 @@ class Card(CardJsonSerializer, db.Model):
     channel = db.Column(db.String(50), unique=True)
     content = db.Column(db.Text())
     create_time = db.Column(db.DateTime())
-    permanent = db.Column(db.Boolean())
+    permanent = db.Column(db.Boolean(), default=False)
