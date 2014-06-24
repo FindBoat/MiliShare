@@ -41,8 +41,8 @@ def create():
         print 'Channel %s already used' % channel
         abort(404)
     params = request.json
-    print params
     params['create_time'] = datetime.now()
+    params['permanent'] = False
     return cards.create(**params)
 
 
